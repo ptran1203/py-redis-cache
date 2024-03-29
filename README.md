@@ -1,3 +1,5 @@
+![example branch parameter](https://github.com/ptran1203/py-redis-cache/actions/workflows/run-unittest.yml/badge.svg)
+
 # Redis cache for Python
 
 - Simple python redis cache library, mostly used as [distributed caching](https://redis.com/glossary/distributed-caching), where application servers is in separated processes such as Gunicorn workers, K8s replicas, .etc..
