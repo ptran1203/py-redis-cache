@@ -2,7 +2,6 @@
 
 def cache(tags=None, ttl=30):
     from . import current_redis_cache
-    print("Import")
     return current_redis_cache.cache(tags, ttl)
 
 
