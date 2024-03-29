@@ -24,9 +24,8 @@ class Singleton(type):
         is_aio_redis = isinstance(cls, AsyncRedisCache)
 
         if cls not in cls._instances:
-            
             cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
-            if is_aio_redis:
+            if not is_aio_redis:
                 current_redis_cache = cls._instances[cls]
                 print("SET", current_redis_cache)
             else:
@@ -254,38 +253,3 @@ class RedisCache(metaclass=Singleton):
                 return data
             return wrapper
         return decorator
-
-
-def cached(
-    cache_instance: RedisCache,
-    tags: Union[list, str] = None,
-    ttl=30
-) -> Callable:
-    """
-    Return a decorator to cache the output of a function.
-    The cache will be invalidated after amount of time defined by
-    `ttl` argument (30 seconds by default)
-
-    Args:
-        tags(list|str, optional): tag of the cache, the tag 
-            will be added to the key for storing data.
-        ttl(int): Time to live of the cache, that mean the cache
-            will be deleted after `ttl` seconds.
-
-    Returns:
-        Decorator function
-    """
-    def decorator(func):
-        def wrapper(*args, **kwargs):
-            key = cache_instance._build_key(tags, func, *args, **kwargs)
-            data = cache_instance.get(key)
-            if data is None:
-                # Cache miss, call function and set result in redis
-                data = func(*args, **kwargs)
-                cache_instance.setex(key, data, ttl=ttl)
-            else:
-                # Cache hit
-                cache_instance.log_info(f"Cache hit, key={key}")
-            return data
-        return wrapper
-    return decorator

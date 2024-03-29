@@ -4,6 +4,7 @@ sys.path.append(".")
 from py_redis_cache import RedisCache
 from py_redis_cache.functional import cache
 
+
 # init redis_cache instance and connection
 redis_cache = RedisCache(
     host="127.0.0.1",
@@ -11,7 +12,7 @@ redis_cache = RedisCache(
     verbose=1  # Turn on logging for demonstration, set to 0 for silent caching
 )
 
-@redis_cache.cache(ttl=10)  # Expire after 10 seconds
+@cache(ttl=10)  # Expire after 10 seconds
 def heavy_compute(a: list, b: list):
     length = max(len(a), len(b))
     c = [[]] * length
@@ -26,5 +27,6 @@ print(result)
 
 result =  heavy_compute([1, 2, 3], [4, 5, 6])
 print(result)
+
 # Cache hit, key=redis_cache::11=__main__.heavy_compute(a=[1, 2, 3].b=[4, 5, 6])
 # [4, 10, 18]
