@@ -45,15 +45,42 @@ class RedisCache(metaclass=Singleton):
     RedisCache using Redis for storing data
 
     Args:
-        namespace (str):
-        serializer (str):
-        local_cache (bool):
-        verbose(int):
-        logger (logging.Logger):
+        namespace (str): Namespace of the cache, used as prefix for cache keys
+            to avoid possible conflicting.
+        serializer (str, default='pickle'): serializer used to serialize data before sending
+            to redis, can be `'pickle'` or `'json'`.
+        local_cache (bool, default=False): To enable caching on local memory.
+        verbose(int, default=0): If set to be greater than `0`, will log in every
+            cache added and hitted, can be used for debugging purposes
+        logger (logging.Logger, default=None): Logger to log when verbose > 0
+        -----
+        *args, **kwargs: Can be any arguments you can pass to Redis class
+        See: https://github.com/redis/redis-py/blob/07fc339b4a4088c1ff052527685ebdde43dfc4be/redis/client.py#L92
 
-    # Usage
+    ### Example
 
-    # Example
+    ```python
+    redis_cache = RedisCache(
+        host="127.0.0.1",
+        port=6379,
+    )
+
+    @redis_cache.cache(ttl=10)  # Expire after 10 seconds
+    def concate_list(a: list, b: list):
+        print("This function is called")
+        return a + b
+
+    result =  concate_list([1, 2, 3], [4, 5, 6])
+    print(result)
+    # This function is called
+    # [1, 2, 3, 4, 5, 6]
+
+    # Now result is cached, next time you call this function, result will returned
+    # from redis
+    result =  concate_list([1, 2, 3], [4, 5, 6])
+    print(result)
+    # [1, 2, 3, 4, 5, 6]
+    ```
     """
     redis_cls = Redis
 
