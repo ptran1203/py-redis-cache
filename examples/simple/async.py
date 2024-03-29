@@ -3,7 +3,7 @@
 import sys
 sys.path.append(".")
 import asyncio
-from py_redis_cache.asyncio import AsyncRedisCache
+from redis_cache_py.asyncio import AsyncRedisCache
 
 # init redis_cache instance and connection
 redis_cache = AsyncRedisCache(

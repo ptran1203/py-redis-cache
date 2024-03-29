@@ -13,13 +13,13 @@
 ## Installation
 
 ```bash
-$ pip install py-redis-cache
+$ pip install redis-cache-py
 ```
 
 ## Simple usage
 
 ```python
-from py_redis_cache import RedisCache
+from redis_cache_py import RedisCache
 
 # init redis_cache instance and connection
 # make sure you have redis running on `127.0.0.1:6379`
@@ -49,7 +49,7 @@ print(result)
 
 ```python
 import asyncio
-from py_redis_cache.asyncio import AsyncRedisCache
+from redis_cache_py.asyncio import AsyncRedisCache
 
 # init redis_cache instance and connection
 # Make sure you have redis running on `127.0.0.1:6379`

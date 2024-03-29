@@ -2,7 +2,7 @@
 # RedisCache
 import os
 import unittest
-from py_redis_cache import RedisCache, Singleton
+from redis_cache_py import RedisCache, Singleton
 from redis.exceptions import ConnectionError
 
 

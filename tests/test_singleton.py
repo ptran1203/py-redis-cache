@@ -1,6 +1,6 @@
 import os
 import unittest
-from py_redis_cache import RedisCache, Singleton
+from redis_cache_py import RedisCache, Singleton
 
 
 class TestRedisCacheConnection(unittest.TestCase):
@@ -20,7 +20,7 @@ class TestRedisCacheConnection(unittest.TestCase):
 
         redis_cache = RedisCache()
         
-        from py_redis_cache import current_redis_cache
+        from redis_cache_py import current_redis_cache
 
         assert redis_cache is current_redis_cache  # Sample object
 

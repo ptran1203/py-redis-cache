@@ -1,7 +1,7 @@
 import sys
 sys.path.append(".")
 
-from py_redis_cache import RedisCache
+from redis_cache_py import RedisCache
 
 # init redis_cache instance and connection
 redis_cache = RedisCache(
