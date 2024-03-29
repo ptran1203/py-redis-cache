@@ -17,6 +17,7 @@ current_redis_cache = None
 current_aio_redis_cache = None
 
 class Singleton(type):
+    disable = False
     _instances = {}
     def __call__(cls, *args, **kwargs):
         from .asyncio import AsyncRedisCache
@@ -27,11 +28,16 @@ class Singleton(type):
             cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
             if not is_aio_redis:
                 current_redis_cache = cls._instances[cls]
-                print("SET", current_redis_cache)
             else:
                 current_aio_redis_cache = cls._instances[cls]
-                print("SET AIO", current_aio_redis_cache)
+            
+        if cls.disable:
+            return cls._instances.pop(cls)
         return cls._instances[cls]
+    
+    @classmethod
+    def clear_instance(cls):
+        cls._instances = {}
 
 
 class RedisCache(metaclass=Singleton):
